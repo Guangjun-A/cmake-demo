@@ -1,0 +1,3 @@
+/data/jun/cmake-demo-master/Demo2/CMakeFiles/edit_cache.dir
+/data/jun/cmake-demo-master/Demo2/CMakeFiles/rebuild_cache.dir
+/data/jun/cmake-demo-master/Demo2/CMakeFiles/Demo.dir
