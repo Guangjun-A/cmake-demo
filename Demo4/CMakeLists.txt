@@ -1,10 +1,33 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(DEMO4)
+#　把目录设置为当前目录
+#　自动添加 CMAKE_CURRENT_BINARY_DIR 和 CMAKE_CURRENT_SOURCE_DIR 到当前处理
+#　的 CMakeLists.txt。相当于在每个 CMakeLists.txt 加入:
+# INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+# Automatically add the current source and build directories to the include path.
+set(CMAKE_INCLUDE_CURRENT_DIR ON) 
+ # 赋值
+option(USE_MY_MATH "USE provided math implementation" ON)
 
-set()
+# 把文件config.h.in中的变量替换生成config
+configure_file("${PROJECT_SOURCE_DIR}/config.h.in" "${PROJECT_SOURCE_DIR}/config.h") 
+
+if (USE_MYMATH) 
+   include_directories("${PROJECT_SOURCE_DIR}/math") # 这样引入的时候就可以写#include<math.h> 而不是#include<Math/math.h>
+  add_subdirectory(math) # math在可生成文件所在的文件夹下, add the MathFunctions library
+  set (EXTRA_LIBS MathFunctions)
+endif (USE_MYMATH)
+
+aux_source_directory(${PROJECT_SOURCE_DIR} DIR_SRCS) # PROJECT_SOURCE_DIR 根目录
+MESSAGE(STATUS "==========${PROJECT_SOURCE_DIR}")
+MESSAGE(STATUS "==========${PROJECT_BINARY_DIR}")
+MESSAGE(STATUS "==========${USE_MY_MATH}")
+MESSAGE(STATUS "==========${EXTRA_LIBS}")
 
 
+add_executable(Demo ${DIR_SRCS})
+target_link_libraries(Demo ${EXTRA_LIBS})
 # # CMake 最低版本号要求
 # cmake_minimum_required (VERSION 2.8)
 
